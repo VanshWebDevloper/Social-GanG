@@ -1,56 +1,109 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta description="A social media platform for social members of hackclub.
-    - Social GanG">
-  <title>Social GanG</title>
-  <link rel="stylesheet" href="main.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Social GanG — hang out where your people are</title>
+  <meta name="description" content="Communities, chats, calls and screen shares in one fast little app." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="main.css" />
 </head>
 <body>
-  <h1>Social GanG</h1>
-  <header>Wanna know things about it ?</header>
-  <section>
-    <div class="features">
-      <ul>
-        <div class="part 1">
-          <li>This platform serves you to hangout with your Friends or Family</li>
-            
-          <img src="#willadded" alt="A preview">
+
+  <div class="grain" aria-hidden="true"></div>
+
+  <header class="nav">
+    <a class="brand" href="#">social<span>gang</span><i>.gg</i></a>
+    <nav class="nav-links">
+      <a href="#features">stuff</a>
+      <a href="#how">how it works</a>
+      <a href="#join" class="btn btn-small">get in</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="tagline">Specially made for Hackclubbers!</p>
+        <h1>build your <span class="scribble">gang</span> and actually hang out</h1>
+        <p class="sub">social gang is a tiny app where you make communities, chat, hop on calls, share your screen and dump your memes. that's it. that's the whole thing.</p>
+        <div class="hero-cta">
+          <a href="#join" class="btn btn-big">make your gang →</a>
+          <a href="#how" class="link-plain">or see how it works</a>
         </div>
-        <div class="part 2">
-          <li>Your chats and histories are end-to-end encrypted no-one can access it. </li>
-          <a href="#seeHow">See HOW ?</a>
-          <img src="#willadded" alt="A preview">
-        </div>
-        <div>
-          <li>You can Post , Like and Add your Stories</li>
-          <a href="#seeHow">See HOW ?</a>
-          <img src="#willadded" alt="A preview">
-        </div>
-        <div class="part 3">
-          <li>
-            <strong>Orpheus can't Haiku your Chats like hackclub :)</strong>
-          </li>
-          <a href="#seeHow">See HOW ?</a>
-          <img src="#willadded" alt="A preview">
-        </div>
-        <div class="part 4">
-          <li>Create and run your own Community</li>
-          <a href="#seeHow">See HOW ?</a>
-          <img src="#willadded" alt="A preview">
-        </div>
-        </ul>
+        <p class="hero-note">free, runs in the browser, works on your phone too</p>
       </div>
-  </section>
 
-  <section class="join">
-    <h2>Are you Exited!--?</h2>
-    <button type="submit"><a href="app/home.html">Let's Get Started</a></button>
-    <article>Move to be Social or Start your own Community or Empire with your joy and desire. Dont be shy just join and enjoy </article>
-  </section>
+      <div class="hero-art">
+        <video class="hero-video" src="assets/scroll.mp4" autoplay muted loop playsinline preload="metadata"></video>
+      </div>
+    </section>
 
-  <script src="script.js"></script>
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee-track">
+        <span>communities ✦ group chats ✦ voice calls ✦ video calls ✦ screen sharing ✦ file dumps ✦ dms ✦ no algorithm ✦ </span>
+        <span>communities ✦ group chats ✦ voice calls ✦ video calls ✦ screen sharing ✦ file dumps ✦ dms ✦ no algorithm ✦ </span>
+      </div>
+    </div>
+
+    <section id="features" class="features">
+      <h2>what's in the box</h2>
+      <div class="feature-grid">
+        <article class="feature f1">
+          <b>communities</b>
+          <p>make your own space, invite people with a link, done. no verification labyrinth.</p>
+        </article>
+        <article class="feature f2">
+          <b>calls &amp; video</b>
+          <p>voice, video, screen share. lag depends on your wifi, not on us.</p>
+        </article>
+        <article class="feature f3">
+          <b>chat that just chats</b>
+          <p>files, images, dms. no "engagement score", no promoted posts mid-conversation.</p>
+        </article>
+        <article class="feature f4">
+          <b>fast &amp; small</b>
+          <p>loads in a blink even on trash mobile data. built by people with trash mobile data.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="how" class="how">
+      <h2>how it works</h2>
+      <ol class="steps">
+        <li>
+          <span class="step-num">01</span>
+          <div><b>sign up</b><p>email + password. takes like 20 seconds.</p></div>
+        </li>
+        <li>
+          <span class="step-num">02</span>
+          <div><b>make or join a gang</b><p>every community gets an invite link. spam it to your friends.</p></div>
+        </li>
+        <li>
+          <span class="step-num">03</span>
+          <div><b>hang out</b><p>chat, call, share screen, drop files. repeat daily.</p></div>
+        </li>
+      </ol>
+    </section>
+
+    <section id="join" class="join">
+      <div class="join-box">
+        <h2>your gang is waiting</h2>
+        <p>or it will be once you make it</p>
+        <a class="btn btn-big" href="/app/home.html">start now →</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <p>social gang © 2026 · made by a teenager who was tired of the same 5 apps</p>
+    <div class="foot-links">
+      <a href="/emailVerify.html">verify email</a>
+      <a href="https://github.com/VanshWebDevloper/Social-GanG" target="_blank" rel="noopener">source</a>
+    </div>
+  </footer>
+
 </body>
 </html>
