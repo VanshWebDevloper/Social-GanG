@@ -1,0 +1,75 @@
+/* auth.css — the gate. kept plain on purpose, it's a doorway not a room */
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  background: #f6f3ec;
+  font-family: system-ui, -apple-system, sans-serif;
+  color: #1c1a16;
+  padding: 16px;
+}
+
+.card {
+  width: 100%;
+  max-width: 340px;
+  background: #fffdf8;
+  border: 1px solid #e4ded0;
+  border-radius: 14px;
+  padding: 28px 24px;
+  box-shadow: 0 10px 30px rgba(60, 50, 20, .06);
+}
+
+.logo {
+  margin: 0 0 4px;
+  font-size: 22px;
+  letter-spacing: -.5px;
+}
+
+.tag {
+  margin: 0 0 20px;
+  font-size: 13px;
+  color: #8a8375;
+}
+
+input {
+  width: 100%;
+  padding: 11px 12px;
+  margin-bottom: 10px;
+  border: 1px solid #ddd6c6;
+  border-radius: 9px;
+  background: #fff;
+  font: inherit;
+  outline: none;
+}
+input:focus { border-color: #b7a86e; }
+
+button {
+  width: 100%;
+  padding: 11px;
+  border: 0;
+  border-radius: 9px;
+  background: #1c1a16;
+  color: #f6f3ec;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+button:disabled { opacity: .55; cursor: wait; }
+
+.swap {
+  margin: 16px 0 0;
+  font-size: 13px;
+  color: #8a8375;
+  text-align: center;
+}
+.swap a { color: #1c1a16; }
+
+.err {
+  margin: 12px 0 0;
+  font-size: 13px;
+  color: #b3261e;
+}

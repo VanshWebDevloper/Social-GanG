@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Social GanG</title>
+<link rel="stylesheet" href="css/auth.css">
+</head>
+<body>
+<main class="card">
+  <h1 class="logo">Social GanG</h1>
+  <p class="tag" id="tagline">create an account, no email rabbit holes</p>
+
+  <form id="authForm" autocomplete="on">
+    <input type="text"  id="name"  placeholder="your name" hidden>
+    <input type="email" id="email" placeholder="email" required autocomplete="email">
+    <input type="password" id="pass" placeholder="password" required minlength="6" autocomplete="current-password">
+    <button type="submit" id="goBtn">sign up</button>
+  </form>
+
+  <p class="swap" id="swap">already in the gang? <a href="#" id="swapLink">log in</a></p>
+  <p class="err" id="err" hidden></p>
+</main>
+
+<script type="module" src="js/auth.js"></script>
+</body>
+</html>

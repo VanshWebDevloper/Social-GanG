@@ -1,0 +1,57 @@
+rules_version = '2';
+
+// social gang firestore rules.
+// shape of the data:
+//   users/{uid}                          - profile cards
+//   communities/{cid}                    - community + members map + inviteCode
+//   communities/{cid}/channels/{chid}    - channels
+//   .../channels/{chid}/messages/{mid}   - chat messages
+//
+// how to install: firebase console -> build -> firestore -> rules tab ->
+// select all, delete, paste this, publish.
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    // profile cards: everyone logged in can read names, you own yours
+    match /users/{uid} {
+      allow read: if signedIn();
+      allow create, update: if signedIn() && request.auth.uid == uid;
+    }
+
+    match /communities/{cid} {
+      // community doc itself: any signed-in person can read the list
+      // (needed so invite codes can be matched client-side)
+      allow read: if signedIn();
+      allow create: if signedIn() && request.auth.uid == request.resource.data.owner;
+      // members can join/leave/be kicked -> writes to the members map.
+      // kicking is enforced client-side by only showing the button to the owner.
+      allow update: if signedIn() && request.auth.uid in resource.data.members;
+      allow delete: if signedIn() && request.auth.uid == resource.data.owner;
+
+      match /channels/{chid} {
+        function comm() {
+          return get(/databases/$(database)/documents/communities/$(cid)).data;
+        }
+
+        allow read: if signedIn() && request.auth.uid in comm().members;
+        // only the community owner can create or delete channels
+        allow create, update, delete: if signedIn() && request.auth.uid == comm().owner;
+
+        match /messages/{mid} {
+          allow read: if signedIn() && request.auth.uid in comm().members;
+          // write your own messages only, and ts must be server time (no forging)
+          allow create: if signedIn()
+            && request.auth.uid == request.resource.data.uid
+            && request.resource.data.ts == request.time;
+          // you can delete your own messages, owner can delete anything
+          allow delete: if signedIn() && (resource.data.uid == request.auth.uid || comm().owner == request.auth.uid);
+        }
+      }
+    }
+  }
+}

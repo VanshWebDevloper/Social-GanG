@@ -1,13 +1,63 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>HomePage - Social GanG</title>
-  <link rel="stylesheet" href="home.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Social GanG</title>
+<link rel="stylesheet" href="css/home.css">
 </head>
 <body>
-  hello !
-  <script src="home.js"></script>
+
+<!-- three columns: rail (communities) | channels | chat. collapses on phones -->
+<div class="shell">
+
+  <!-- left rail: your communities as little icons, plus the "+" to make one -->
+  <nav class="rail" id="rail">
+    <div class="rail-top">S</div>
+    <div class="rail-list" id="railList"><!-- filled by home.js --></div>
+    <button class="rail-add" id="addCommunityBtn" title="create or join a community">+</button>
+  </nav>
+
+  <!-- middle column: channels of the open community -->
+  <aside class="channels">
+    <header class="ch-head">
+      <h2 id="communityName">…</h2>
+      <div class="ch-head-actions">
+        <button class="mini" id="inviteBtn" title="copy invite link">invite</button>
+        <button class="mini" id="adminBtn" title="community settings" hidden>⚙</button>
+      </div>
+    </header>
+    <div class="ch-list" id="chList"><!-- filled by home.js --></div>
+  </aside>
+
+  <!-- chat area -->
+  <main class="chat">
+    <header class="chat-head">
+      <span id="channelTitle"># lounge</span>
+      <span class="members-count" id="membersCount"></span>
+    </header>
+
+    <div class="msgs" id="msgs"><!-- filled by home.js --></div>
+
+    <form class="composer" id="msgForm">
+      <input type="text" id="msgInput" placeholder="say something…" autocomplete="off" maxlength="500">
+      <button type="submit">send</button>
+    </form>
+  </main>
+
+</div>
+
+<!-- modal shell, one overlay reused for create / join / admin -->
+<div class="overlay" id="overlay" hidden>
+  <div class="modal" id="modalBox"><!-- content injected by home.js --></div>
+</div>
+
+<!-- small strip if their email isn't verified yet. gentle, not a wall -->
+<div class="verify-strip" id="verifyStrip" hidden>
+  verification link sent to your email (check spam) —
+  <a href="#" id="resendVerify">resend</a>
+</div>
+
+<script type="module" src="js/home.js"></script>
 </body>
 </html>
