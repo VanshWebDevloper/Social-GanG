@@ -22,6 +22,13 @@
   <li>I wanna learn backend and database stuff and some real world development knowledge :)</li>
 </ul>
 
+# New skill and integeration
+<h3>I learned how to use interactive 3d models with animations. Integeration of 3d models to websites is great and i will use it again and again. I learned a new skill that is how to use and manage 3d models for good looking websites.</h3>
+
+# Use 
+<h3>Anyone can use my work happily without my permission but not to missuse(no missuse possible) it. You can freely copy all the assets if you needed them or modify every files better than me.</h3>
+<h3>You should not make a 1:1 replica of this not just cloning and publishing you should modify them</h3>
+
 # Previews `:]`
 <ul>
   <li>
