@@ -31,7 +31,7 @@
         <h1>build your <span class="scribble">gang</span> and actually hang out</h1>
         <p class="sub">social gang is a tiny app where you make communities, chat, hop on calls, share your screen and dump your memes. that's it. that's the whole thing.</p>
         <div class="hero-cta">
-          <a href="#join" class="btn btn-big" id="heroStart">make your gang →</a>
+          <a href="#join" class="btn btn-big">make your gang →</a>
           <a href="#how" class="link-plain">or see how it works</a>
         </div>
         <p class="hero-note">free, runs in the browser, works on your phone too</p>
@@ -93,7 +93,7 @@
       <div class="join-box">
         <h2>your gang is waiting</h2>
         <p>or it will be once you make it</p>
-        <a class="btn btn-big" href="/app/home.html">Join now! →</a>
+        <a class="btn btn-big" href="home.html">Join now! →</a>
       </div>
     </section>
   </main>
@@ -114,7 +114,7 @@
     document.getElementById('heroStart').addEventListener('click', (e) => {
       e.preventDefault();
       if (window.__enterPhone) window.__enterPhone();
-      else location.href = '/app/home.html';
+      else location.href = 'home.html';
     });
   </script>
 
