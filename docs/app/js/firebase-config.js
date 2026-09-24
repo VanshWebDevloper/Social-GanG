@@ -14,3 +14,6 @@ const firebaseConfig = {
 export const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const db = getFirestore(app);
+
+// re-export the raw config so pages that need it (auth.js before this fix) can import it
+export { firebaseConfig };

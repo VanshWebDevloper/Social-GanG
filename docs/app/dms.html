@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Social GanG — dms</title>
+<link rel="stylesheet" href="css/home.css">
+</head>
+<body class="has-bnav">
+
+<div class="shell">
+  <nav class="rail">
+    <div class="rail-top">S</div>
+    <div class="rail-list">
+      <button class="rail-icon" id="navHome" title="chat">💬</button>
+      <button class="rail-icon active" id="navDms" title="dms">✉️</button>
+      <button class="rail-icon" id="navMe" title="profile">🙂</button>
+    </div>
+    <button class="rail-add" id="logoutBtn" title="log out">⎋</button>
+  </nav>
+
+  <aside class="channels">
+    <header class="ch-head"><h2>direct messages</h2></header>
+    <div class="ch-list" id="dmList"><!-- conversations injected --></div>
+  </aside>
+
+  <main class="chat">
+    <header class="chat-head">
+      <span id="dmTitle">pick a conversation</span>
+      <span class="members-count" id="dmSub"></span>
+    </header>
+
+    <div class="msgs" id="msgs"></div>
+
+    <form class="composer" id="msgForm">
+      <input type="text" id="msgInput" placeholder="say something…" autocomplete="off" maxlength="500">
+      <button type="submit">send</button>
+    </form>
+  </main>
+</div>
+
+<nav class="bottomnav">
+  <a href="home.html">💬 chat</a>
+  <a href="dms.html" class="active">✉️ dms</a>
+  <a href="profile.html">🙂 profile</a>
+  <a href="settings.html">⚙ settings</a>
+</nav>
+
+<div class="toast" id="toast" hidden></div>
+
+<script type="module" src="js/mobile.js"></script>
+<script type="module" src="js/dms.js"></script>
+</body>
+</html>

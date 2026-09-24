@@ -6,9 +6,8 @@
 <title>Social GanG</title>
 <link rel="stylesheet" href="css/home.css">
 </head>
-<body>
+<body class="has-bnav">
 
-<!-- three columns: rail (communities) | channels | chat. collapses on phones -->
 <div class="shell">
 
   <!-- left rail: your communities as little icons, plus the "+" to make one -->
@@ -47,10 +46,18 @@
 
 </div>
 
-<!-- modal shell, one overlay reused for create / join / admin -->
+<!-- modal shell, reused for create / join / admin -->
 <div class="overlay" id="overlay" hidden>
   <div class="modal" id="modalBox"><!-- content injected by home.js --></div>
 </div>
+
+<!-- bottom nav, same on every page -->
+<nav class="bottomnav">
+  <a href="home.html" class="active">💬 chat</a>
+  <a href="dms.html">✉️ dms</a>
+  <a href="profile.html">🙂 profile</a>
+  <a href="settings.html">⚙ settings</a>
+</nav>
 
 <!-- small strip if their email isn't verified yet. gentle, not a wall -->
 <div class="verify-strip" id="verifyStrip" hidden>
@@ -58,6 +65,7 @@
   <a href="#" id="resendVerify">resend</a>
 </div>
 
+<script type="module" src="js/mobile.js"></script>
 <script type="module" src="js/home.js"></script>
 </body>
 </html>

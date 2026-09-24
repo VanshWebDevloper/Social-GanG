@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Social GanG — settings</title>
+<title>Social GanG — profile</title>
 <link rel="stylesheet" href="css/home.css">
 </head>
 <body class="has-bnav">
@@ -16,28 +16,28 @@
   </nav>
 
   <aside class="channels">
-    <header class="ch-head"><h2>settings</h2></header>
-    <div class="ch-list"></div>
+    <header class="ch-head"><h2 id="sideTitle">people you know</h2></header>
+    <div class="ch-list" id="peopleList"><!-- people grid injected --></div>
   </aside>
 
   <main class="chat">
-    <div class="profile-wrap">
-      <div class="settings-list" id="settingsList"><!-- rows injected --></div>
-    </div>
+    <div class="profile-wrap" id="profileWrap"><!-- card injected --></div>
   </main>
 </div>
 
+<!-- bottom nav, same on every page -->
 <nav class="bottomnav">
-  <a href="home.html">💬 chat</a>
-  <a href="dms.html">✉️ dms</a>
-  <a href="profile.html">🙂 profile</a>
-  <a href="settings.html" class="active">⚙ settings</a>
+  <a href="home.html" id="bnChat">💬 chat</a>
+  <a href="dms.html" id="bnDms">✉️ dms</a>
+  <a href="profile.html" id="bnMe" class="active">🙂 profile</a>
+  <a href="settings.html" id="bnSet">⚙ settings</a>
 </nav>
 
 <div class="overlay" id="overlay" hidden><div class="modal" id="modalBox"></div></div>
+<input type="file" id="pfpInput" accept="image/*" hidden>
 <div class="toast" id="toast" hidden></div>
 
 <script type="module" src="js/mobile.js"></script>
-<script type="module" src="js/settings.js"></script>
+<script type="module" src="js/profile.js"></script>
 </body>
 </html>

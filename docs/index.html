@@ -5,21 +5,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Social GanG — hang out where your people are</title>
   <meta name="description" content="Communities, chats, calls and screen shares in one fast little app." />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />  
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="main.css" />
+  
 </head>
 <body>
 
   <div class="grain" aria-hidden="true"></div>
+  <div id="phoneFade" aria-hidden="true"></div>
 
   <header class="nav">
     <a class="brand" href="#">social<span>gang</span><i>.gg</i></a>
     <nav class="nav-links">
       <a href="#features">stuff</a>
       <a href="#how">how it works</a>
-      <a href="#join" class="btn btn-small">get in</a>
+      <a href="#join" class="btn btn-small">Let's Start</a>
     </nav>
   </header>
 
@@ -30,14 +32,14 @@
         <h1>build your <span class="scribble">gang</span> and actually hang out</h1>
         <p class="sub">social gang is a tiny app where you make communities, chat, hop on calls, share your screen and dump your memes. that's it. that's the whole thing.</p>
         <div class="hero-cta">
-          <a href="#join" class="btn btn-big">make your gang →</a>
+          <a href="#join" class="btn btn-big" id="heroStart">make your gang →</a>
           <a href="#how" class="link-plain">or see how it works</a>
         </div>
         <p class="hero-note">free, runs in the browser, works on your phone too</p>
       </div>
 
       <div class="hero-art">
-        <video class="hero-video" src="assets/scroll.mp4" autoplay muted loop playsinline preload="metadata"></video>
+        <div id="phoneStage" aria-label="3d phone running the social gang app"></div>
       </div>
     </section>
 
@@ -92,7 +94,7 @@
       <div class="join-box">
         <h2>your gang is waiting</h2>
         <p>or it will be once you make it</p>
-        <a class="btn btn-big" href="/app/home.html">start now →</a>
+        <a class="btn btn-big" href="/app/home.html">Join now! →</a>
       </div>
     </section>
   </main>
@@ -100,10 +102,22 @@
   <footer class="foot">
     <p>social gang © 2026 · made by a teenager who was tired of the same 5 apps</p>
     <div class="foot-links">
-      <a href="/emailVerify.html">verify email</a>
       <a href="https://github.com/VanshWebDevloper/Social-GanG" target="_blank" rel="noopener">source</a>
     </div>
   </footer>
+
+  <script type="importmap">
+  { "imports": { "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+                 "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/" } }
+  </script>
+  <script type="module" src="phone.js"></script>
+  <script>
+    document.getElementById('heroStart').addEventListener('click', (e) => {
+      e.preventDefault();
+      if (window.__enterPhone) window.__enterPhone();
+      else location.href = '/app/home.html';
+    });
+  </script>
 
 </body>
 </html>

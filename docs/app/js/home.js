@@ -6,19 +6,14 @@
 // first person who ever opens the app with the lounge / community / india / help
 // channels baked in. everyone auto-joins it, so nobody starts at a dead screen.
 
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { auth, db } from "./firebase-config.js";
 import {
-  getAuth, onAuthStateChanged, sendEmailVerification, signOut
-} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+  onAuthStateChanged, sendEmailVerification, signOut
+} from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
 import {
-  getFirestore, doc, getDoc, setDoc, updateDoc, deleteDoc,
-  collection, addDoc, onSnapshot, query, orderBy, serverTimestamp, arrayUnion, arrayRemove
-} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-import { firebaseConfig } from "./firebase-config.js";
-
-const app  = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db   = getFirestore(app);
+  doc, getDoc, setDoc, updateDoc, deleteDoc,
+  collection, addDoc, onSnapshot, query, orderBy, serverTimestamp
+} from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
 
 const $ = id => document.getElementById(id);
 
@@ -209,23 +204,61 @@ function openChannelFn(chId, chName) {
     collection(db, "communities", openComm, "channels", chId, "messages"),
     orderBy("ts", "asc")
   );
-  msgsUnsub = onSnapshot(q, (snap) => {
+  msgsUnsub = onSnapshot(q, async (snap) => {
     const box = $("msgs");
+    // names come from the live user doc, not the frozen copy on the message,
+    // so a rename updates old messages too
+    const uids = [...new Set(snap.docs.map(d => d.data().uid))];
+    await Promise.all(uids.map(u => userDoc(u)));
     box.innerHTML = "";
     for (const d of snap.docs) {
       const m = d.data();
+      const u = userCache[m.uid] || {};
       const div = document.createElement("div");
       div.className = "msg" + (m.uid === me.uid ? " mine" : "");
       const when = m.ts?.toDate ? m.ts.toDate().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }) : "";
       div.innerHTML = `
-        <div class="who">${esc(m.name)}</div>
-        <div class="bubble">${esc(m.text)}</div>
-        ${when ? `<div class="when">${when}</div>` : ""}`;
+        <div class="avatar-dot" data-uid="${esc(m.uid)}" style="background:${avatarColor(m.uid)}">${avatarHtml(m.uid, u.name || m.name)}</div>
+        <div class="msg-body">
+          <div class="who" data-uid="${esc(m.uid)}">${esc(u.name || m.name)}</div>
+          <div class="bubble">${esc(m.text)}</div>
+          ${when ? `<div class="when">${when}</div>` : ""}
+        </div>`;
+      div.querySelector(".who").onclick = () => location.href = `profile.html?u=${m.uid}`;
       box.appendChild(div);
     }
     box.scrollTop = box.scrollHeight;
   });
 }
+
+// avatar colors are derived from the uid so they're stable everywhere
+function avatarColor(seed) {
+  const h = [...seed].reduce((a, c) => a + c.charCodeAt(0), 0) % 360;
+  return `hsl(${h} 55% 50%)`;
+}
+const initials = (n) => (n || "?").trim().split(/\s+/).map(w => w[0]).slice(0, 2).join("").toUpperCase();
+
+// cached user doc lookups so each avatar isn't a fresh read per message
+const userCache = {};
+async function userDoc(uid) {
+  if (userCache[uid]) return userCache[uid];
+  try {
+    const s = await getDoc(doc(db, "users", uid));
+    userCache[uid] = s.exists() ? s.data() : {};
+  } catch { userCache[uid] = {}; }
+  return userCache[uid];
+}
+function avatarHtml(uid, name) {
+  const cached = userCache[uid];
+  if (cached?.avatar) return `<img src="${cached.avatar}" alt="">`;
+  userDoc(uid).then(u => {
+    if (u.avatar) {
+      document.querySelectorAll(`.avatar-dot[data-uid="${uid}"]`).forEach(el => el.innerHTML = `<img src="${u.avatar}" alt="">`);
+    }
+  });
+  return initials(name);
+}
+
 
 function renderChannelsRedraw() {
   // cheap way to re-highlight the active channel: re-fire the click path
@@ -292,26 +325,28 @@ $("addCommunityBtn").onclick = () => {
 };
 
 async function createCommunity() {
-  const name = $("newCommName")?.value?.trim() || $("newCommIcon")?.value && "" || "";
-  // read them properly (ids above)
   const cName = document.getElementById("newCommName").value.trim();
   const cIcon = document.getElementById("newCommIcon").value.trim();
   if (!cName) return alert("give it a name");
 
   const code = inviteCode();
-  const ref = await addDoc(collection(db, "communities"), {
-    name: cName,
-    icon: cIcon || cName[0].toUpperCase(),
-    owner: me.uid,
-    inviteCode: code,
-    members: { [me.uid]: { name: myName, role: "owner" } },
-    createdAt: Date.now()
-  });
-  // every community starts with a lounge so it's never empty
-  await addDoc(collection(ref, "channels"), { name: "lounge", createdAt: Date.now() });
+  try {
+    const ref = await addDoc(collection(db, "communities"), {
+      name: cName,
+      icon: cIcon || cName[0].toUpperCase(),
+      owner: me.uid,
+      inviteCode: code,
+      members: { [me.uid]: { name: myName, role: "owner" } },
+      createdAt: Date.now()
+    });
+    // every community starts with a lounge so it's never empty
+    await addDoc(collection(ref, "channels"), { name: "lounge", createdAt: Date.now() });
 
-  closeModal();
-  openComm = ref.id;
+    closeModal();
+    openComm = ref.id;
+  } catch (err) {
+    alert("couldn't create: " + err.code + "\n(make sure you published the new firestore rules)");
+  }
 }
 
 async function joinByInvite(code) {

@@ -2,19 +2,14 @@
 // rule of the file: once you're signed in, you go home. no "check your email first" gate.
 // the verification mail still fires, but it's a side quest, not a wall.
 
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+// one shared firebase instance comes from firebase-config.js — never call
+// initializeApp twice in the same page, firebase throws "duplicate app".
+import { auth, db } from "./firebase-config.js";
 import {
-  getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword,
+  createUserWithEmailAndPassword, signInWithEmailAndPassword,
   onAuthStateChanged, sendEmailVerification, updateProfile
-} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-import { firebaseConfig } from "./firebase-config.js";
-
-// firebase-config.js is yours — it holds the keys google gave you. keep it out of screenshots.
-
-const app  = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db   = getFirestore(app);
+} from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
+import { doc, setDoc } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
 
 const $ = id => document.getElementById(id);
 const errBox = $("err");
@@ -35,6 +30,9 @@ function renderMode() {
   $("swap").innerHTML = mode === "signup"
     ? 'already in the gang? <a href="#" id="swapLink">log in</a>'
     : 'new here? <a href="#" id="swapLink">make an account</a>';
+  $("tagline").textContent = mode === "signup"
+    ? "create an account, no email rabbit holes"
+    : "welcome back, log in to the gang";
   $("swapLink").onclick = (e) => { e.preventDefault(); flip(); };
 }
 

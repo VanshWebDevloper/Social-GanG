@@ -110,15 +110,21 @@ h1 {
 .hero-note { margin-top: 18px; font-size: .85rem; color: var(--muted); }
 
 .hero-art { display: flex; justify-content: center; }
-.hero-video {
+#phoneStage {
   width: 100%;
-  max-width: 420px;
-  aspect-ratio: 9 / 13;
-  object-fit: cover;
-  border-radius: var(--radius);
-  border: 1px solid var(--line);
-  box-shadow: 12px 12px 0 rgba(200,242,76,.25);
+  max-width: 460px;
+  aspect-ratio: 9 / 12;
+  position: relative;
+  cursor: pointer;
 }
+#phoneStage canvas { width: 100% !important; height: 100% !important; display: block; }
+#phoneFade {
+  position: fixed; inset: 0; z-index: 50;
+  background: #fff; opacity: 0; pointer-events: none;
+  transition: opacity .5s ease;
+}
+#phoneFade.on { opacity: 1; pointer-events: auto; }
+
 
 /* ---------- marquee ---------- */
 .marquee {
@@ -228,14 +234,11 @@ h2 {
   .btn-big { padding: 13px 24px; font-size: .98rem; }
   .hero-note { margin-top: 12px; }
 
-  /* video goes edge to edge, no shadow, full mobile width */
-  .hero-video {
+  /* phone stage: same size and framing as desktop so the phone reads identically */
+  #phoneStage {
     max-width: none;
-    width: 100%;
-    aspect-ratio: 4 / 5;
-    border-radius: 0;
-    border: 0;
-    box-shadow: none;
+    width: min(100vw, 100%);
+    aspect-ratio: 9 / 12;
   }
 
   .marquee { padding: 12px 0; margin-top: 48px; }

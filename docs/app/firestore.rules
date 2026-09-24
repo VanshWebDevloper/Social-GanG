@@ -2,13 +2,15 @@ rules_version = '2';
 
 // social gang firestore rules.
 // shape of the data:
-//   users/{uid}                          - profile cards
+//   users/{uid}                          - profile cards (name, bio, avatar data url)
 //   communities/{cid}                    - community + members map + inviteCode
 //   communities/{cid}/channels/{chid}    - channels
 //   .../channels/{chid}/messages/{mid}   - chat messages
+//   dms/{uidA__uidB}                     - one-on-one conversations, uids sorted
+//   dms/.../messages/{mid}               - dm messages
 //
-// how to install: firebase console -> build -> firestore -> rules tab ->
-// select all, delete, paste this, publish.
+// install: firebase console -> build -> firestore -> rules tab ->
+// select all, paste this, publish.
 
 service cloud.firestore {
   match /databases/{database}/documents {
@@ -17,20 +19,23 @@ service cloud.firestore {
       return request.auth != null;
     }
 
-    // profile cards: everyone logged in can read names, you own yours
+    // profile cards: anyone signed in can read, you own yours
     match /users/{uid} {
       allow read: if signedIn();
       allow create, update: if signedIn() && request.auth.uid == uid;
+      allow delete: if signedIn() && request.auth.uid == uid;
     }
 
     match /communities/{cid} {
-      // community doc itself: any signed-in person can read the list
-      // (needed so invite codes can be matched client-side)
+      // community doc: any signed-in person can read the list
+      // (invite codes are matched client-side)
       allow read: if signedIn();
       allow create: if signedIn() && request.auth.uid == request.resource.data.owner;
-      // members can join/leave/be kicked -> writes to the members map.
-      // kicking is enforced client-side by only showing the button to the owner.
-      allow update: if signedIn() && request.auth.uid in resource.data.members;
+      // joining: your uid must appear in the NEW members map (you add yourself).
+      // leaving/kicking: your uid must be in the CURRENT members map.
+      allow update: if signedIn() &&
+        (request.auth.uid in resource.data.members ||
+         request.auth.uid in request.resource.data.members);
       allow delete: if signedIn() && request.auth.uid == resource.data.owner;
 
       match /channels/{chid} {
@@ -39,18 +44,36 @@ service cloud.firestore {
         }
 
         allow read: if signedIn() && request.auth.uid in comm().members;
-        // only the community owner can create or delete channels
+        // only the community owner creates or deletes channels
         allow create, update, delete: if signedIn() && request.auth.uid == comm().owner;
 
         match /messages/{mid} {
           allow read: if signedIn() && request.auth.uid in comm().members;
-          // write your own messages only, and ts must be server time (no forging)
+          // write your own messages only, ts must be server time (no forging)
           allow create: if signedIn()
             && request.auth.uid == request.resource.data.uid
             && request.resource.data.ts == request.time;
-          // you can delete your own messages, owner can delete anything
+          // you can delete your own messages, the owner can delete anything
           allow delete: if signedIn() && (resource.data.uid == request.auth.uid || comm().owner == request.auth.uid);
         }
+      }
+    }
+
+    match /dms/{dmId} {
+      // dm ids are "uidA__uidB" (sorted), so a participant is provable from the id
+      function inDm() {
+        return signedIn() && request.auth.uid in dmId.split('__');
+      }
+
+      allow read, create, update: if inDm();
+      allow delete: if false; // no one deletes a whole conversation, keep it simple
+
+      match /messages/{mid} {
+        allow read: if inDm();
+        allow create: if inDm()
+          && request.auth.uid == request.resource.data.uid
+          && request.resource.data.ts == request.time;
+        allow delete: if signedIn() && resource.data.uid == request.auth.uid;
       }
     }
   }

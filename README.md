@@ -19,8 +19,22 @@
   <li>Because my wish -_-</li>
   <li>I wanna learn web development much much more more.</li>  
   <li>It will strong my Github portfolio</li>
-  <li>I wanna learn backend and database stuff and some real world development knowledge '_'</li>
+  <li>I wanna learn backend and database stuff and some real world development knowledge :)</li>
 </ul>
 
 # Previews `:]`
-<!--TODO: ADD SOME SS AND VIDS of app-->
+<ul>
+  <li>
+    <img src="docs/assets/ss-preview.png" alt="preview of landing page">
+  </li>
+  <li>
+    <li>
+      <img src="docs/assets/ss-3dmobile.png" alt="3d mobile ss preview">
+    </li>
+  <p><strong>3d mobile model was made by yutish3 on da slack thx to him :)</strong></p>
+</ul>
+
+# AI usage
+AI was used for creating and editing the video played on that 3d mobile model.
+Also used for some tests and stuff.
+No more than 30% of usage.
